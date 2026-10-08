@@ -1,0 +1,119 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// ---------- Buttons ----------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-2;
+  padding: 0.65rem 1.15rem;
+  border-radius: $r-md;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: $fs-sm;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.05s, box-shadow 0.15s, border-color 0.15s;
+  white-space: nowrap;
+
+  &:hover { text-decoration: none; }
+  &:active:not(:disabled) { transform: translateY(1px); }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  &--primary { background: $primary; color: #fff; &:hover:not(:disabled) { background: $primary-dark; } }
+  &--accent { background: $accent; color: #fff; &:hover:not(:disabled) { background: #e8650a; } }
+  &--outline { background: $surface; color: $ink; border-color: $line; &:hover:not(:disabled) { border-color: $primary; color: $primary; } }
+  &--ghost { background: transparent; color: $text; &:hover:not(:disabled) { background: $primary-soft; color: $primary; } }
+  &--danger { background: $danger-soft; color: $danger; &:hover:not(:disabled) { background: $danger; color: #fff; } }
+  &--sm { padding: 0.4rem 0.75rem; font-size: $fs-xs; border-radius: $r-sm; }
+  &--lg { padding: 0.85rem 1.6rem; font-size: $fs-md; }
+  &--block { width: 100%; }
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: $ink;
+  &:hover { background: $primary-soft; color: $primary; }
+}
+
+// ---------- Forms ----------
+.field { display: flex; flex-direction: column; gap: $sp-1; label, .label { font-weight: 600; font-size: $fs-sm; color: $ink; } .hint { font-size: $fs-xs; color: $muted; } .err { font-size: $fs-xs; color: $danger; } }
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid $line;
+  border-radius: $r-md;
+  background: $surface;
+  color: $ink;
+  font: inherit;
+  font-size: $fs-sm;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  &:focus { outline: none; border-color: $primary; box-shadow: 0 0 0 3px rgba($primary, 0.18); }
+  &::placeholder { color: #a3adc2; }
+}
+.textarea { min-height: 110px; resize: vertical; }
+
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: $sp-3; }
+.choice {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: $sp-3;
+  padding: $sp-4;
+  border: 2px solid $line;
+  border-radius: $r-md;
+  cursor: pointer;
+  background: $surface;
+  transition: border-color 0.15s, background 0.15s;
+  input { margin-top: 4px; accent-color: $primary; }
+  strong { display: block; color: $ink; }
+  small { color: $muted; }
+  &:has(input:checked) { border-color: $primary; background: $primary-soft; }
+}
+
+// ---------- Feedback ----------
+.alert { padding: $sp-3 $sp-4; border-radius: $r-md; font-size: $fs-sm; white-space: pre-line; &--error { background: $danger-soft; color: $danger; } &--success { background: $success-soft; color: $success; } &--info { background: $primary-soft; color: $primary-dark; } &--warn { background: $warning-soft; color: $warning; } }
+
+.spinner { width: 28px; height: 28px; border: 3px solid $line; border-top-color: $primary; border-radius: 50%; animation: spin 0.8s linear infinite; &--sm { width: 16px; height: 16px; border-width: 2px; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.center-box { display: grid; place-items: center; padding: $sp-7 $sp-4; text-align: center; gap: $sp-3; }
+
+.empty { text-align: center; padding: $sp-7 $sp-4; @include card; .emoji { font-size: 2.8rem; } h3 { margin-bottom: $sp-1; } p { color: $muted; } }
+
+.badge {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  border-radius: $r-pill;
+  font-size: $fs-xs;
+  font-weight: 700;
+  background: $primary-soft;
+  color: $primary-dark;
+  &--success { background: $success-soft; color: $success; }
+  &--danger { background: $danger-soft; color: $danger; }
+  &--warn { background: $warning-soft; color: $warning; }
+  &--info { background: #e6f2ff; color: #0b64c0; }
+  &--muted { background: #eef0f4; color: $muted; }
+}
+
+.stars { display: inline-flex; align-items: center; gap: 4px; font-size: $fs-sm; font-weight: 600; color: $ink; .star { color: $star; } .count { color: $muted; font-weight: 400; } }
+
+// ---------- Toasts ----------
+.toasts { position: fixed; z-index: 1200; top: calc(#{$navbar-h} + 12px); right: $sp-4; display: flex; flex-direction: column; gap: $sp-2; max-width: calc(100vw - 2rem); }
+.toast { @include card; box-shadow: $shadow-md; padding: $sp-3 $sp-4; display: flex; gap: $sp-3; align-items: center; min-width: 260px; animation: slide-in 0.2s ease-out; border-left: 4px solid $primary; &--success { border-left-color: $success; } &--error { border-left-color: $danger; } button { margin-left: auto; border: 0; background: none; cursor: pointer; color: $muted; font-size: 1.1rem; } }
+@keyframes slide-in { from { opacity: 0; transform: translateY(-8px); } }
+
+// ---------- Pagination ----------
+.pagination { display: flex; gap: $sp-1; justify-content: center; flex-wrap: wrap; margin-top: $sp-5; button { min-width: 38px; height: 38px; border-radius: $r-md; border: 1px solid $line; background: $surface; cursor: pointer; font-weight: 600; color: $text; &:hover:not(:disabled) { border-color: $primary; color: $primary; } &[aria-current='page'] { background: $primary; border-color: $primary; color: #fff; } &:disabled { opacity: 0.4; cursor: not-allowed; } } }
+
+// ---------- Tables ----------
+.table-wrap { @include card; overflow-x: auto; }
+table.table { width: 100%; border-collapse: collapse; font-size: $fs-sm; th { text-align: left; padding: $sp-3 $sp-4; background: #fafbfe; color: $muted; font-weight: 600; font-size: $fs-xs; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; } td { padding: $sp-3 $sp-4; border-top: 1px solid $line; vertical-align: middle; } tr:hover td { background: #fbfbfe; } .thumb { width: 44px; height: 44px; border-radius: $r-sm; object-fit: cover; background: $bg; } .cell-product { display: flex; align-items: center; gap: $sp-3; min-width: 220px; } }

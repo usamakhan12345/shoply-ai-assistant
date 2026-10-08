@@ -1,0 +1,85 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// ---------- Product card (used on the storefront AND inside the AI chat) ----------
+.product-grid { display: grid; gap: $sp-4; grid-template-columns: repeat(2, 1fr); @include up($bp-md) { grid-template-columns: repeat(3, 1fr); } @include up($bp-xl) { grid-template-columns: repeat(4, 1fr); } &--wide-3 { @include up($bp-xl) { grid-template-columns: repeat(3, 1fr); } } }
+
+.pcard { @include card; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.18s, box-shadow 0.18s; position: relative;
+  &:hover { transform: translateY(-3px); box-shadow: $shadow-md; }
+  &__media { position: relative; aspect-ratio: 1; background: $bg; overflow: hidden; display: block; img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s; } }
+  &:hover &__media img { transform: scale(1.05); }
+  &__badge { position: absolute; top: $sp-3; left: $sp-3; background: $accent; color: #fff; font-weight: 800; font-size: $fs-xs; padding: 0.2rem 0.55rem; border-radius: $r-pill; }
+  &__out { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.7); display: grid; place-items: center; font-weight: 700; color: $ink; }
+  &__body { padding: $sp-3 $sp-4 $sp-4; display: flex; flex-direction: column; gap: $sp-2; flex: 1; }
+  &__cat { font-size: $fs-xs; color: $muted; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+  &__title { font-size: $fs-sm; font-weight: 600; color: $ink; @include truncate-lines(2); min-height: 2.6em; &:hover { color: $primary; text-decoration: none; } }
+  &__price { display: flex; align-items: baseline; gap: $sp-2; flex-wrap: wrap; strong { font-size: $fs-lg; color: $ink; font-weight: 800; } s { color: $muted; font-size: $fs-xs; } }
+  &__foot { margin-top: auto; padding-top: $sp-2; }
+
+  &--compact { flex-direction: row; box-shadow: none; &:hover { transform: none; box-shadow: none; }
+    .pcard__media { width: 84px; aspect-ratio: 1; flex-shrink: 0; }
+    .pcard__body { padding: $sp-2 $sp-3; gap: 2px; }
+    .pcard__title { min-height: 0; -webkit-line-clamp: 1; }
+    .pcard__price strong { font-size: $fs-md; }
+    .pcard__badge { top: 4px; left: 4px; font-size: 10px; padding: 0.1rem 0.4rem; }
+    .pcard__foot { padding-top: 4px; }
+  }
+}
+
+// ---------- Products page ----------
+.shop-layout { display: grid; gap: $sp-5; @include up($bp-lg) { grid-template-columns: 260px 1fr; align-items: start; } }
+.filters { @include card; padding: $sp-4; display: none; &.open { display: block; } @include up($bp-lg) { display: block; position: sticky; top: calc(#{$navbar-h} + 16px); }
+  h4 { font-size: $fs-xs; text-transform: uppercase; letter-spacing: 0.06em; color: $muted; margin: $sp-4 0 $sp-2; &:first-child { margin-top: 0; } }
+  .opt { display: flex; align-items: center; gap: $sp-2; padding: 5px 0; font-size: $fs-sm; cursor: pointer; input { accent-color: $primary; } &.sub { padding-left: $sp-4; color: $muted; } }
+  .price-row { display: flex; gap: $sp-2; align-items: center; }
+}
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: $sp-3; margin-bottom: $sp-4; flex-wrap: wrap; .select { width: auto; } }
+.active-filters { display: flex; flex-wrap: wrap; gap: $sp-2; margin-bottom: $sp-3; .chip { display: inline-flex; gap: 6px; align-items: center; background: $primary-soft; color: $primary-dark; padding: 3px 10px; border-radius: $r-pill; font-size: $fs-xs; font-weight: 600; button { border: 0; background: none; cursor: pointer; color: inherit; padding: 0; } } }
+
+// ---------- Product detail ----------
+.pdp { display: grid; gap: $sp-6; @include up($bp-md) { grid-template-columns: 1.1fr 1fr; }
+  &__gallery { display: flex; flex-direction: column; gap: $sp-3; .main { @include card; overflow: hidden; aspect-ratio: 1; img { width: 100%; height: 100%; object-fit: cover; } } .thumbs { display: flex; gap: $sp-2; button { width: 68px; height: 68px; padding: 0; border-radius: $r-md; border: 2px solid $line; overflow: hidden; background: none; cursor: pointer; &[aria-current='true'] { border-color: $primary; } img { width: 100%; height: 100%; object-fit: cover; } } } }
+  &__info { display: flex; flex-direction: column; gap: $sp-3; h1 { margin: 0; } }
+  &__price { display: flex; align-items: baseline; gap: $sp-3; strong { font-size: $fs-3xl; color: $ink; font-weight: 800; letter-spacing: -0.03em; } s { color: $muted; font-size: $fs-lg; } .off { background: $accent-soft; color: $accent; font-weight: 800; padding: 2px 10px; border-radius: $r-pill; font-size: $fs-sm; } }
+  .opts { display: flex; gap: $sp-2; flex-wrap: wrap; span { padding: 5px 14px; border: 1px solid $line; border-radius: $r-pill; font-size: $fs-sm; background: $surface; } }
+  .qty-row { display: flex; gap: $sp-3; align-items: center; flex-wrap: wrap; }
+  .specs { width: 100%; border-collapse: collapse; td { padding: $sp-2 0; border-bottom: 1px solid $line; font-size: $fs-sm; &:first-child { color: $muted; width: 40%; } } }
+}
+.qty { display: inline-flex; align-items: center; border: 1px solid $line; border-radius: $r-md; background: $surface; button { width: 34px; height: 36px; border: 0; background: none; cursor: pointer; font-size: 1.1rem; color: $ink; &:hover:not(:disabled) { color: $primary; } &:disabled { opacity: 0.35; cursor: not-allowed; } } span { min-width: 34px; text-align: center; font-weight: 700; font-size: $fs-sm; } }
+
+.review { padding: $sp-4 0; border-top: 1px solid $line; .who { font-weight: 700; color: $ink; } }
+
+// ---------- Cart & checkout ----------
+.cart-layout { display: grid; gap: $sp-5; @include up($bp-lg) { grid-template-columns: 1fr 360px; align-items: start; } }
+.cart-item { @include card; display: grid; grid-template-columns: 84px 1fr; gap: $sp-4; padding: $sp-4; align-items: center; margin-bottom: $sp-3; @include up($bp-md) { grid-template-columns: 96px 1fr auto auto; }
+  img { width: 100%; aspect-ratio: 1; border-radius: $r-md; object-fit: cover; }
+  .title { font-weight: 600; color: $ink; display: block; margin-bottom: 2px; }
+  .line { font-weight: 800; color: $ink; text-align: right; min-width: 90px; }
+  .controls { display: flex; gap: $sp-3; align-items: center; grid-column: 2; @include up($bp-md) { grid-column: auto; } }
+}
+.summary { @include card; padding: $sp-5; position: sticky; top: calc(#{$navbar-h} + 16px); h3 { margin-bottom: $sp-4; }
+  .line { display: flex; justify-content: space-between; padding: $sp-2 0; font-size: $fs-sm; &.save { color: $success; } &.total { border-top: 1px solid $line; margin-top: $sp-2; padding-top: $sp-3; font-size: $fs-lg; font-weight: 800; color: $ink; } }
+  .free-ship { font-size: $fs-xs; color: $muted; margin: $sp-2 0 $sp-4; }
+}
+.mock-banner { background: $warning-soft; color: $warning; border: 1px dashed $warning; border-radius: $r-md; padding: $sp-3 $sp-4; font-size: $fs-sm; margin-bottom: $sp-4; }
+.steps { display: flex; gap: $sp-2; margin-bottom: $sp-5; font-size: $fs-sm; font-weight: 600; color: $muted; flex-wrap: wrap; .on { color: $primary; } }
+
+.confirm { max-width: 640px; margin: $sp-5 auto; text-align: center; .tick { width: 72px; height: 72px; border-radius: 50%; background: $success-soft; color: $success; display: grid; place-items: center; font-size: 2.2rem; margin: 0 auto $sp-4; } }
+
+// ---------- Orders ----------
+.order-card { @include card; padding: $sp-4 $sp-5; margin-bottom: $sp-4; .head { display: flex; justify-content: space-between; gap: $sp-3; flex-wrap: wrap; margin-bottom: $sp-3; } .items { display: flex; gap: $sp-2; margin: $sp-3 0; img { width: 52px; height: 52px; border-radius: $r-sm; object-fit: cover; } } }
+.timeline { display: flex; flex-direction: column; gap: 0; margin: $sp-3 0;
+  .t { display: grid; grid-template-columns: 28px 1fr; gap: $sp-3; position: relative; padding-bottom: $sp-4; &:last-child { padding-bottom: 0; }
+    &::before { content: ''; position: absolute; left: 13px; top: 26px; bottom: 0; width: 2px; background: $line; }
+    &:last-child::before { display: none; }
+    .dot { width: 28px; height: 28px; border-radius: 50%; background: $bg; border: 2px solid $line; display: grid; place-items: center; font-size: 12px; color: $muted; z-index: 1; }
+    &.done .dot { background: $success; border-color: $success; color: #fff; }
+    &.done::before { background: $success; }
+    &.current .dot { border-color: $primary; background: $primary; color: #fff; box-shadow: 0 0 0 4px rgba($primary, 0.2); }
+    &.cancelled .dot { background: $danger; border-color: $danger; color: #fff; }
+    strong { color: $ink; display: block; font-size: $fs-sm; } small { color: $muted; }
+  }
+}
+.order-detail { display: grid; gap: $sp-5; @include up($bp-lg) { grid-template-columns: 1fr 360px; align-items: start; } }
+
+.filters-toggle { @include up($bp-lg) { display: none; } }

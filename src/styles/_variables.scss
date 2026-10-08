@@ -1,0 +1,63 @@
+// ===== Design tokens: the ONLY place raw colours / sizes live =====
+
+// Colours
+$primary: #4f46e5;
+$primary-dark: #4338ca;
+$primary-soft: #eef0ff;
+$accent: #f97316;
+$accent-soft: #fff3e8;
+$success: #16a34a;
+$success-soft: #e8f8ee;
+$danger: #dc2626;
+$danger-soft: #fdecec;
+$warning: #d97706;
+$warning-soft: #fdf3e1;
+$star: #f5a623;
+
+$ink: #0f172a; // headings
+$text: #334155; // body
+$muted: #64748b;
+$line: #e5e8f0;
+$surface: #ffffff;
+$bg: #f6f7fb;
+$dark: #111827;
+
+// Typography
+$font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$fs-xs: 0.75rem;
+$fs-sm: 0.875rem;
+$fs-md: 1rem;
+$fs-lg: 1.125rem;
+$fs-xl: 1.375rem;
+$fs-2xl: 1.75rem;
+$fs-3xl: 2.5rem;
+
+// Spacing scale (4px base)
+$sp-1: 0.25rem;
+$sp-2: 0.5rem;
+$sp-3: 0.75rem;
+$sp-4: 1rem;
+$sp-5: 1.5rem;
+$sp-6: 2rem;
+$sp-7: 3rem;
+$sp-8: 4rem;
+
+// Radius
+$r-sm: 6px;
+$r-md: 10px;
+$r-lg: 16px;
+$r-pill: 999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+$shadow-md: 0 6px 18px rgba(15, 23, 42, 0.08);
+$shadow-lg: 0 18px 48px rgba(15, 23, 42, 0.18);
+
+// Breakpoints (min-width)
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+
+$container: 1240px;
+$navbar-h: 68px;
